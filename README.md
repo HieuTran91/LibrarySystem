@@ -29,15 +29,14 @@ This project to build an application about the manager the book in the library
         - Payment the borrowing books
         - Review the books after borrowing
 ## Configuration
-- Step 1:
-    - Install the packages of Nuget:
-        - AutoMapper.Extensions.Microsoft.DependencyInjection
-        - FirebaseStorage.net
-        - FirebaseAdmin
-        - Firebase.Auth
-        - Microsoft.AspNetCore.Authentication.JwtBearer
-        - Microsoft.EntityFrameworkCore
-        - Microsoft.EntityFrameworkCore.SqlServer
-        - Microsoft.EntityFrameworkCore.Tools
-    - Connect to SqlServer
-    - Add JwtSettings and Firebase configurations to appsettings.json
+- Install the packages of Nuget:
+    - AutoMapper.Extensions.Microsoft.DependencyInjection
+    - FirebaseStorage.net
+    - FirebaseAdmin
+    - Firebase.Auth
+    - Microsoft.AspNetCore.Authentication.JwtBearer
+    - Microsoft.EntityFrameworkCore
+    - Microsoft.EntityFrameworkCore.SqlServer
+    - Microsoft.EntityFrameworkCore.Tools
+- Connect to SqlServer
+- Add JwtSettings and Firebase configurations to appsettings.json
