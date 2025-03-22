@@ -1,0 +1,84 @@
+﻿@using LibraryProject.DTOs
+@model BorrowingDTO
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Borrowing Details";
+
+    var role = Context.Session.GetString("Role");
+}
+
+<h2 class="text-center mb-4">Borrowing Details</h2>
+
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card shadow-lg">
+            <div class="card-body">
+                <div class="mb-3">
+                    <label class="form-label"><strong>Book Title</strong></label>
+                    <input type="text" class="form-control" value="@Model.BookTitle" readonly />
+                </div>
+
+                @if(role!="Reader")
+                {
+                    <div class="mb-3">
+                        <label class="form-label"><strong>Reader</strong></label>
+                        <input type="text" class="form-control" value="@Model.ReaderName" readonly />
+                    </div>
+                }
+
+
+                <div class="mb-3">
+                    <label class="form-label"><strong>Borrow Date</strong></label>
+                    <input type="text" class="form-control" value="@Model.BorrowDate.ToString("dd/MM/yyyy")" readonly />
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label"><strong>Due Date</strong></label>
+                    <input type="text" class="form-control" value="@Model.DueDate.ToString("dd/MM/yyyy")" readonly />
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label"><strong>Return Date</strong></label>
+                    <input type="text" class="form-control" value="@(Model.ReturnDate.HasValue ? Model.ReturnDate.Value.ToString("dd/MM/yyyy") : "Not Returned")" readonly />
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label"><strong>Status</strong></label>
+                    <input type="text" class="form-control"
+                           value="@(Model.ReturnDate.HasValue ? "Returned" : "Borrowed")"
+                           readonly />
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label"><strong>Price Per Day</strong></label>
+                    <input type="text" class="form-control" value="@Model.PricePerDay.ToString("C")" readonly />
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label"><strong>Total Borrowing Cost</strong></label>
+                    <input type="text" class="form-control" value="@Model.BorrowPrice?.ToString("C")" readonly />
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label"><strong>Overdue Days</strong></label>
+                    <input type="text" class="form-control" value="@Model.OverdueDays" readonly />
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label"><strong>Overdue Fee</strong></label>
+                    <input type="text" class="form-control" value="@Model.OverdueFee.ToString("C")" readonly />
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label"><strong>Notes</strong></label>
+                    <textarea class="form-control" rows="3" readonly>@Model.Notes</textarea>
+                </div>
+
+                <div class="d-grid gap-2">
+                    <a href="/Borrowing/Index" class="btn btn-secondary">Back to List</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

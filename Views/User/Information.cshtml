@@ -1,0 +1,29 @@
+﻿@using LibraryProject.DTOs
+@model UserDTO
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Information";
+}
+
+<h2>Book Details</h2>
+
+<div class="mb-3">
+    <label class="form-label"><strong>Username:</strong></label>
+    <input type="text" class="form-control" value="@Model.Username" readonly />
+</div>
+<div class="mb-3">
+    <label class="form-label"><strong>Phone number:</strong></label>
+    <input type="text" class="form-control" value="@Model.Phone" readonly />
+</div>
+<div class="mb-3">
+    <label class="form-label"><strong>Email:</strong></label>
+    <input type="text" class="form-control" value="@Model.Email" readonly />
+</div>
+<div class="mb-3">
+    <label class="form-label"><strong>Role:</strong></label>
+    <textarea class="form-control" rows="3" readonly>@Model.RoleName</textarea>
+</div>
+<div>
+    <a href="/User/Edit/@Model.UserID" class="btn btn-primary">Edit</a>
+</div>

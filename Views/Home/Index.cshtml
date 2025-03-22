@@ -1,0 +1,45 @@
+﻿@using LibraryProject.DTOs
+@model IEnumerable<BookDTO>
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Homepage";
+}
+
+<section class="bg-light py-5 text-center">
+    <div class="container">
+        <h1 class="fw-bold">Welcome to Our Library</h1>
+        <p class="lead">Explore thousands of books, borrow and enjoy reading!</p>
+        <img src="~/library.jpg" class="img-fluid rounded" alt="Library Banner">
+    </div>
+</section>
+
+<section class="py-5">
+    <div class="container">
+        <h2 class="text-center mb-4">Books in library</h2>
+        
+        <div class="row">
+            @foreach (var book in Model.Take(6))
+            {
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="card h-100 shadow">
+                        <img src="@book.ImageUrl" class="card-img-top" alt="@book.Title" style="height: 250px; object-fit: cover;">
+                        <div class="card-body">
+                            <h5 class="card-title">@book.Title</h5>
+                            <p class="card-text">By: <strong>@book.Author</strong></p>
+                            <p><span class="badge bg-success">@book.GenreName</span></p>
+                            <p class="card-text">
+                                <span class="badge bg-warning text-dark"> @book.BorrowingPrice.ToString("C") </span>
+                            </p>
+                            <a href="/Book/Detail/@book.BookId" class="btn btn-primary w-100">View Details</a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+
+        <div class="text-center mt-4">
+            <a href="/Book/Index" class="btn btn-outline-primary btn-lg">View More Books</a>
+        </div>
+    </div>
+</section>

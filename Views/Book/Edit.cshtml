@@ -1,0 +1,85 @@
+﻿@using LibraryProject.DTOs
+@model BookDTO
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Edit Book";
+}
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-lg">
+                <div class="card-header bg-primary text-white text-center">
+                    <h3>Edit Book</h3>
+                </div>
+                <div class="card-body">
+                    <form method="post" action="/Book/Edit" enctype="multipart/form-data">
+                        <input type="hidden" asp-for="BookId" />
+
+                        <div class="row">
+                            <div class="col-md-4 text-center">
+                                <img id="previewImage" src="@Model.ImageUrl" alt="Book Cover" class="img-fluid rounded shadow-sm mb-3" style="max-height: 250px; object-fit: cover;">
+                                <div class="mb-3">
+                                    <label class="form-label"><strong>Upload New Cover:</strong></label>
+                                    <input type="file" class="form-control" id="imageFile" name="imageFile" accept="image/*" onchange="previewImage(event)" />
+                                </div>
+                            </div>
+
+                            <div class="col-md-8">
+                                <div class="mb-3">
+                                    <label class="form-label"><strong>Title</strong></label>
+                                    <input type="text" class="form-control" asp-for="Title" required />
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label"><strong>Author</strong></label>
+                                    <input type="text" class="form-control" asp-for="Author" required />
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label"><strong>Genre</strong></label>
+                                    <input type="text" class="form-control" asp-for="GenreName" required />
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label"><strong>Price</strong></label>
+                                    <input type="text" class="form-control" asp-for="BorrowingPrice" required />
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label"><strong>Description</strong></label>
+                                    <textarea class="form-control" asp-for="Description" rows="3" required></textarea>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label"><strong>Is Available:</strong></label>
+                                    <select class="form-select" asp-for="IsAvailable">
+                                        <option value="true" selected="@(Model.IsAvailable.GetValueOrDefault() ? "selected" : null)">Yes</option>
+                                        <option value="false" selected="@(Model.IsAvailable.GetValueOrDefault() ? null : "selected")">No</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Nút hành động -->
+                        <div class="text-center mt-4">
+                            <button type="submit" class="btn btn-success me-2">
+                                <i class="fas fa-save"></i> Update
+                            </button>
+                            <a href="/Book/Index" class="btn btn-secondary">
+                                <i class="fas fa-times"></i> Cancel
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div> <!-- End Col -->
+    </div> <!-- End Row -->
+</div> <!-- End Container -->
+<!-- Script để xem trước ảnh -->
+<script>
+    function previewImage(event) {
+        var reader = new FileReader();
+        reader.onload = function () {
+            var output = document.getElementById("previewImage");
+            output.src = reader.result;
+        };
+        reader.readAsDataURL(event.target.files[0]);
+    }
+</script>

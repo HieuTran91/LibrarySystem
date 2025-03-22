@@ -1,0 +1,81 @@
+﻿@using LibraryProject.DTOs
+@model ReviewDTO
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Write a Review";
+}
+
+<h2 class="text-center">Write a Review</h2>
+
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">@TempData["Error"]</div>
+}
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success">@TempData["Success"]</div>
+}
+
+<form method="post" action="/Review/AddReview">
+    <input type="hidden" name="BookId" value="@Model.BookId" />
+    <input type="hidden" name="BorrowingID" value="@Model.Borrowing.BorrowingID" />
+
+    <div class="mb-3">
+        <label class="form-label" style="font-size: 1.5rem"><strong>Book:</strong></label>
+        <input type="text" class="form-control" value="@Model.BookTitle" readonly />
+    </div>
+
+    <div class="mb-3 d-flex align-items-center">
+        <label class="form-label me-3" style="font-size: 1.5rem";><strong>Rating:</strong></label>
+        <div class="rating">
+            <input type="radio" name="Rating" value="5" id="star5"><label for="star5">★</label>
+            <input type="radio" name="Rating" value="4" id="star4"><label for="star4">★</label>
+            <input type="radio" name="Rating" value="3" id="star3"><label for="star3">★</label>
+            <input type="radio" name="Rating" value="2" id="star2"><label for="star2">★</label>
+            <input type="radio" name="Rating" value="1" id="star1"><label for="star1">★</label>
+        </div>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label" style="font-size: 1.5rem"><strong>Comment:</strong></label>
+        <textarea class="form-control" name="Comment" rows="3" required></textarea>
+    </div>
+
+    <button type="submit" class="btn btn-success w-100">Submit Review</button>
+</form>
+
+<div class="text-center mt-3">
+    <a href="/Review/SkipReview" class="btn btn-secondary">Skip Review</a>
+</div>
+
+<style>
+    .rating {
+        display: flex;
+        flex-direction: row-reverse;
+        justify-content: flex-start;
+        gap: 8px; /* Tạo khoảng cách đẹp giữa các sao */
+    }
+
+        .rating input {
+            display: none;
+        }
+
+        .rating label {
+            font-size: 1.5rem;
+            color: #ccc;
+            cursor: pointer;
+            transition: color 0.3s ease-in-out;
+        }
+
+            .rating input:checked ~ label,
+            .rating label:hover,
+            .rating label:hover ~ label {
+                color: #fbc02d; /* Vàng đậm như sàn thương mại điện tử */
+            }
+
+            .rating label:active {
+                transform: scale(1.2); /* Hiệu ứng nhấn sao */
+            }
+</style>

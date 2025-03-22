@@ -1,0 +1,41 @@
+﻿@using LibraryProject.DTOs
+@model LoginDTO
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Login";
+}
+
+<h2 class="text-center">Login</h2>
+
+@if (!ViewData.ModelState.IsValid)
+{
+    <div class="alert alert-danger">
+        @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+        {
+            <p>@error.ErrorMessage</p>
+        }
+    </div>
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-4">
+        <form method="post" asp-action="Login">
+            <div class="mb-3">
+                <label class="form-label"><strong>Email</strong></label>
+                <input type="text" class="form-control" asp-for="Username" required />
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label"><strong>Password</strong></label>
+                <input type="password" class="form-control" asp-for="Password" required />
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100">Login</button>
+        </form>
+
+        <div class="text-center mt-3">
+            <p>Not have an account? <a asp-action="Register">Register here</a></p>
+        </div>
+    </div>
+</div>

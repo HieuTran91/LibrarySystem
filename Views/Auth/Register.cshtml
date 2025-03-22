@@ -1,0 +1,74 @@
+﻿@using LibraryProject.DTOs
+@model RegisterDTO
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Register";
+}
+
+<h2 class="text-center">Register</h2>
+
+@if (!ViewData.ModelState.IsValid)
+{
+    <div class="alert alert-danger">
+        @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+        {
+            <p>@error.ErrorMessage</p>
+        }
+    </div>
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-4">
+        <form method="post" asp-action="Register">
+            <div class="mb-3">
+                <label class="form-label"><strong>Email</strong></label>
+                <input type="text" class="form-control" asp-for="Username" required />
+                <span class="text-danger" asp-validation-for="Username"></span>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label"><strong>Phone Number</strong></label>
+                <input type="text" class="form-control" asp-for="Phone" required />
+                <span class="text-danger" asp-validation-for="Phone"></span>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label"><strong>Password</strong></label>
+                <input type="password" class="form-control" asp-for="Password" id="password" required />
+                <span class="text-danger" asp-validation-for="Password"></span>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label"><strong>Confirm Password</strong></label>
+                <input type="password" class="form-control" id="confirmPassword" required
+                       data-val="true"
+                       data-val-equalto="Passwords do not match."
+                       data-val-equalto-other="password" />
+                <span class="text-danger" id="confirmPasswordError"></span>
+            </div>
+
+            <button type="submit" class="btn btn-success w-100">Register</button>
+        </form>
+
+        <div class="text-center mt-3">
+            <p>Already have an account? <a asp-action="Login">Login here</a></p>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const password = document.getElementById("password");
+        const confirmPassword = document.getElementById("confirmPassword");
+        const errorSpan = document.getElementById("confirmPasswordError");
+
+        confirmPassword.addEventListener("input", function () {
+            if (confirmPassword.value !== password.value) {
+                errorSpan.textContent = "Passwords do not match.";
+            } else {
+                errorSpan.textContent = "";
+            }
+        });
+    });
+</script>

@@ -1,0 +1,66 @@
+﻿@using LibraryProject.DTOs
+@model BorrowingDTO
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Return Book";
+}
+
+<h2 class="text-center mb-4">Return Book</h2>
+
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card shadow-lg">
+            <div class="card-body">
+                <form method="post" action="/Borrowing/ReturnBook">
+                    <input type="hidden" asp-for="BorrowingID" />
+
+                    <div class="mb-3">
+                        <label class="form-label"><strong>Book Title</strong></label>
+                        <input type="text" class="form-control" asp-for="BookTitle" readonly />
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label"><strong>Borrow Date</strong></label>
+                        <input type="text" class="form-control" asp-for="BorrowDate" readonly />
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label"><strong>Due Date</strong></label>
+                        <input type="text" class="form-control" asp-for="DueDate" readonly />
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label"><strong>Return Date</strong></label>
+                        <input type="text" class="form-control" asp-for="ReturnDate" readonly />
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label"><strong>Total Price</strong></label>
+                        <input type="text" class="form-control" asp-for="BorrowPrice" readonly />
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label"><strong>Overdue Days</strong></label>
+                        <input type="text" class="form-control" asp-for="OverdueDays" readonly />
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label"><strong>Overdue Fee</strong></label>
+                        <input type="text" class="form-control" asp-for="OverdueFee" readonly />
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label"><strong>Notes</strong> (If any issue with book)</label>
+                        <textarea class="form-control" asp-for="Notes" rows="3"></textarea>
+                    </div>
+
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-success">Confirm Return</button>
+                        <a href="/Borrowing/Index" class="btn btn-secondary">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

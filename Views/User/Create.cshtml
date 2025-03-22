@@ -1,0 +1,63 @@
+﻿@using LibraryProject.DTOs
+@model RegisterDTO
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    // TagHelper = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Add New User";
+    var role = Context.Session.GetString("Role");
+}
+<h2>Add New User</h2>
+
+<div class="row justify-content-center">
+    <div class="col-md-4">
+        <form method="post" asp-action="Create">
+            <div class="mb-3">
+                <label class="form-label"><strong>Username</strong></label>
+                <input type="text" class="form-control" asp-for="Username" required />
+                <span class="text-danger" asp-validation-for="Username"></span>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label"><strong>Email</strong></label>
+                <input type="email" class="form-control" asp-for="Email" required />
+                <span class="text-danger" asp-validation-for="Email"></span>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label"><strong>Phone number</strong></label>
+                <input type="text" class="form-control" asp-for="Phone" required />
+                <span class="text-danger" asp-validation-for="Phone"></span>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label"><strong>Password</strong></label>
+                <input type="password" class="form-control" asp-for="Password" required />
+                <span class="text-danger" asp-validation-for="Password"></span>
+            </div>
+            @if(role== "Admin")
+            {
+                <div class="mb-3">
+                    <label class="form-label"><strong>Role</strong></label>
+                    <select class="form-select" asp-for="RoleId">
+                        <option value="3" selected>Reader</option>
+                        <option value="2">Librarian</option>
+                        <option value="1">Admin</option>
+                    </select>
+                    <span class="text-danger" asp-validation-for="RoleId"></span>
+                </div>
+            }
+            else if(role=="Librarian")
+            {
+                <input type="hidden" asp-for="RoleId" value="3" />
+                <div class="mb-3">
+                    <label class="form-label"><strong>Role</strong></label>
+                    <input type="text" class="form-control" value="Reader" readonly />
+                </div>
+            }
+
+
+            <button type="submit" class="btn btn-success w-100">Add</button>
+        </form>
+    </div>
+</div>

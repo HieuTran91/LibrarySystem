@@ -1,0 +1,62 @@
+﻿@using LibraryProject.DTOs
+@model IEnumerable<BorrowingDTO>
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Borrowing List";
+
+    var Role = Context.Session.GetString("Role");
+}
+
+<h2 class="text-center mb-4">Borrowing List</h2>
+
+<div class="container">
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        @foreach (var borrow in Model)
+        {
+            <div class="col">
+                <div class="card shadow-lg h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">@borrow.BookTitle</h5>
+                        @if (Role != "Reader")
+                        {
+                            <p class="card-text"><strong>Reader:</strong> @borrow.ReaderName</p>
+                        }
+                        <p class="card-text"><strong>Borrow Date:</strong> @borrow.BorrowDate.ToString("dd/MM/yyyy")</p>
+                        <p class="card-text"><strong>Due Date:</strong> @borrow.DueDate.ToString("dd/MM/yyyy")</p>
+
+                        @if (borrow.ReturnDate.HasValue)
+                        {
+                            <p class="card-text">
+                                <strong>Return Date:</strong>
+                                @borrow.ReturnDate.Value.ToString("dd/MM/yyyy")
+                            </p>
+                        }
+                        else
+                        {
+                            <p class="card-text">
+                                <strong>Return Date:</strong>
+                                <span class='text-danger'>Not Returned</span>
+                            </p>
+                            
+                        }
+                        <p class="card-text">
+                            <strong>Status:</strong>
+                            <span class="badge @(borrow.ReturnDate.HasValue ? "bg-success" : "bg-warning")">
+                                @(borrow.ReturnDate.HasValue ? "Returned" : "Borrowed")
+                            </span>
+                        </p>
+                        <div class="d-grid gap-3">
+                            @if (!borrow.ReturnDate.HasValue && Role=="Reader")
+                            {
+                                <a class="btn btn-danger w-100" href="/Borrowing/Return/@borrow.BorrowingID">Return</a>
+                            }
+                            <a class="btn btn-primary w-100" href="/Borrowing/Detail/@borrow.BorrowingID">Borrow Detail</a>
+                            <a class="btn btn-primary w-100" href="/Payment/Detail/@borrow.BorrowingID">Payment Detail</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

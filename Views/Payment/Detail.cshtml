@@ -1,0 +1,26 @@
+﻿@model LibraryProject.DTOs.PaymentDTO
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Payment Detail";
+}
+
+<h2 class="text-center">Payment Detail</h2>
+
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">@TempData["Error"]</div>
+}
+
+<div class="card shadow p-4">
+    <h4><strong>Borrowing ID:</strong> @Model.BorrowingID</h4>
+    <h5><strong>Book:</strong> @Model.Borrowing.Book.Title</h5>
+    <h5><strong>Payment Method:</strong> @Model.PaymentMethod</h5>
+    <h5><strong>Amount:</strong> $@Model.Amount</h5>
+    <h5><strong>Payment Date:</strong> @Model.PaymentDate.ToString("dd/MM/yyyy")</h5>
+    <h5><strong>Notes:</strong> @Model.Notes</h5>
+</div>
+
+<div class="mt-3">
+    <a asp-controller="Borrowing" asp-action="Index" class="btn btn-secondary">Back to Borrowings</a>
+</div>

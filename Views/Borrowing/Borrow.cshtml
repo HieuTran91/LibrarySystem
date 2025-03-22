@@ -1,0 +1,122 @@
+﻿@using LibraryProject.DTOs
+@model BorrowingDTO
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Borrow Book";
+}
+
+<h2 class="text-center mb-4">Borrow Book</h2>
+
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <form method="post" asp-action="Borrow">
+            <input type="hidden" asp-for="BookID" />
+
+            <div class="mb-3">
+                <label class="form-label"><strong>Book Title</strong></label>
+                <input type="text" class="form-control" asp-for="BookTitle" readonly />
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label"><strong>Price Per Day</strong></label>
+                <input type="text" class="form-control" asp-for="PricePerDay" id="pricePerDay" readonly />
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label"><strong>Borrow Date</strong></label>
+                <input type="date" class="form-control" asp-for="BorrowDate" id="borrowDate" required />
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label"><strong>Due Date</strong></label>
+                <input type="date" class="form-control" asp-for="DueDate" id="dueDate" required />
+                <span id="dueDateError" class="text-danger" style="display:none;">Due Date must be later than or equal to today.</span>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label"><strong>Estimated Price</strong></label>
+                <input type="text" class="form-control" id="estimatedPrice" readonly />
+            </div>
+
+            <div class="d-grid gap-2">
+                <button type="submit" class="btn btn-success">Confirm Borrow</button>
+                <a href="/Book/Index" class="btn btn-secondary">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="container mt-5">
+    <h4 class="text-center">📌 Rental Pricing Information</h4>
+    <table class="table table-bordered text-center">
+        <thead class="table-dark">
+            <tr>
+                <th>Rental Duration</th>
+                <th>Price Calculation</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1 - 10 days</td>
+                <td><strong>Price Per Day × Number of Days</strong></td>
+            </tr>
+            <tr>
+                <td>11 - 20 days</td>
+                <td><strong>Price Per Day × Number of Days × 1.25</strong></td>
+            </tr>
+            <tr>
+                <td>More than 20 days</td>
+                <td><strong>Price Per Day × Number of Days × 1.5</strong></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        let today = new Date().toISOString().split('T')[0];
+        document.getElementById("borrowDate").value = today;
+        document.getElementById("dueDate").setAttribute("min", today); 
+
+        document.getElementById("dueDate").addEventListener("change", function () {
+            let dueDate = new Date(document.getElementById("dueDate").value);
+            let borrowDate = new Date(document.getElementById("borrowDate").value);
+
+            if (dueDate < borrowDate) {
+                document.getElementById("dueDateError").style.display = "block";
+                this.value = ""; 
+            } else {
+                document.getElementById("dueDateError").style.display = "none";
+            }
+
+            calculateEstimatedPrice();
+        });
+    });
+
+    function calculateEstimatedPrice() {
+        let pricePerDay = parseFloat(document.getElementById("pricePerDay").value);
+        let borrowDate = new Date(document.getElementById("borrowDate").value);
+        let dueDate = new Date(document.getElementById("dueDate").value);
+
+        if (borrowDate && dueDate && dueDate > borrowDate) {
+            let days = Math.ceil((dueDate - borrowDate) / (1000 * 60 * 60 * 24));
+            let totalPrice = 0;
+
+            if (days <= 10) {
+                totalPrice = days * pricePerDay;
+            } else if (days <= 20) {
+                totalPrice = days * pricePerDay * 1.25;
+            } else {
+                totalPrice = days * pricePerDay * 1.5;
+            }
+
+            document.getElementById("estimatedPrice").value = totalPrice.toFixed(2);
+        } else {
+            document.getElementById("estimatedPrice").value = "0";
+        }
+    }
+
+    document.getElementById("borrowDate").addEventListener("change", calculateEstimatedPrice);
+    document.getElementById("dueDate").addEventListener("change", calculateEstimatedPrice);
+</script>
